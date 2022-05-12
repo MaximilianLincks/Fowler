@@ -1,18 +1,16 @@
 public class Movie {
-    public static final int CHILDRENS = 2;
-    public static final int REGULAR = 0;
-    public static final int NEW_RELEASE = 1;
     private String title;
-    private int priceCode;
-    public Movie(String newtitle, int newpriceCode) {
+    private MovieType priceCode;
+
+    public Movie(String newtitle, MovieType newpriceCode) {
         title = newtitle;
         priceCode = newpriceCode;
     }
-    public int getPriceCode() {
+    public MovieType getPriceCode() {
         return priceCode;
     }
-    public void setPriceCode(int arg) {
-        priceCode = arg;
+    public void setPriceCode(MovieType priceCode) {
+        this.priceCode = priceCode;
     }
     public String getTitle (){
         return title;
