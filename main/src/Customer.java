@@ -19,7 +19,9 @@ class Customer {
     }
     public String statement() {
 
-        double totalAmount = rentals.stream().mapToDouble(this::amountFor).sum();
+        double totalAmount = rentals.stream()
+                .mapToDouble(RentalPrice::getPrice)
+                .sum();
 
         long frequentRenterPoints = rentals.size() +
                 // add bonus for a two day new release rental
@@ -32,7 +34,7 @@ class Customer {
                 .append("\t" + "Title" + "\t" + "\t" + "Days" + "\t" + "Amount" + "\n");
 
         rentals.stream()
-                        .map(rental -> "\t" + rental.getMovie().getTitle()+ "\t" + "\t" + rental.getDaysRented() + "\t" + amountFor(rental) + "\n")
+                        .map(rental -> "\t" + rental.getMovie().getTitle()+ "\t" + "\t" + rental.getDaysRented() + "\t" + RentalPrice.getPrice(rental) + "\n")
                         .forEach(result::append);
 
         //add footer lines
@@ -46,23 +48,7 @@ class Customer {
         return result.toString();
     }
 
-    private double amountFor(Rental each) {
-        double thisAmount = 0;
-        switch (each.getMovie().getPriceCode()) {
-            case REGULAR -> {
-                thisAmount += 2;
-                if (each.getDaysRented() > 2)
-                    thisAmount += (each.getDaysRented() - 2) * 1.5;
-            }
-            case NEW_RELEASE -> thisAmount += each.getDaysRented() * 3;
-            case CHILDREN -> {
-                thisAmount += 1.5;
-                if (each.getDaysRented() > 3)
-                    thisAmount += (each.getDaysRented() - 3) * 1.5;
-            }
-        }
-        return thisAmount;
-    }
+
 
 }
     
